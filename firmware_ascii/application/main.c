@@ -14,6 +14,8 @@ All Global variable names shall start with "G_"
 /* New variables */
 volatile u32 G_u32SystemFlags = 0;                     /* Global system flags */
 volatile u32 G_u32ApplicationFlags = 0;                /* Global applications flags: set when application is successfully initialized */
+u8 u8kingdom;
+
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* External global variables defined in other files (must indicate which file they are defined in) */
@@ -42,6 +44,9 @@ the 1ms period.
 void main(void)
 {
   G_u32SystemFlags |= _SYSTEM_INITIALIZING;
+  u8 u8hammer;
+  u8kingdom=0;
+  u8hammer=3;
 
   /* Low level initialization */
   WatchDogSetup(); /* During development, does not reset processor if timeout */
@@ -84,6 +89,8 @@ void main(void)
   while(1)
   {
     WATCHDOG_BONE();
+    u8kingdom++;
+    u8hammer+=2;
     
     /* Drivers */
     LedUpdate();
