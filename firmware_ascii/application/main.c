@@ -14,6 +14,7 @@ All Global variable names shall start with "G_"
 /* New variables */
 volatile u32 G_u32SystemFlags = 0;                     /* Global system flags */
 volatile u32 G_u32ApplicationFlags = 0;                /* Global applications flags: set when application is successfully initialized */
+u16 u16testnumber;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* External global variables defined in other files (must indicate which file they are defined in) */
@@ -42,6 +43,9 @@ the 1ms period.
 void main(void)
 {
   G_u32SystemFlags |= _SYSTEM_INITIALIZING;
+  u32 u32show;
+  u16testnumber=1996;
+  
 
   /* Low level initialization */
   WatchDogSetup(); /* During development, does not reset processor if timeout */
@@ -49,12 +53,15 @@ void main(void)
   ClockSetup();
   InterruptSetup();
   SysTickSetup();
+  u32show=0;
+  u16testnumber-=2;
 
   /* Driver initialization */
   MessagingInitialize();
   UartInitialize();
   DebugInitialize();
-
+  
+  
   /* Debug messages through DebugPrintf() are available from here */
 
   ButtonInitialize();
@@ -84,6 +91,8 @@ void main(void)
   while(1)
   {
     WATCHDOG_BONE();
+    u32show++;
+    u16testnumber--;
     
     /* Drivers */
     LedUpdate();
