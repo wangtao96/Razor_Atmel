@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-37335794
+Checksum=977669140
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -24,6 +24,51 @@ CStepIntDis=_ 0
 TraceBufferSize=0x00010000
 TraceStallIfFIFOFull=0x00000000
 TracePortSize=0x00000000
+[InterruptLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+SumSortOrder=0
+[DataLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+[Interrupts]
+Enabled=1
+[MemConfig]
+Base=1
+Manual=0
+Ddf=1
+TypeViol=0
+Stop=1
+[Simulator]
+Freq=10000000
+MultiCoreRunAll=1
+[array_types]
+Fmt0=char[8]	3	0
+Fmt1=eColor[3]	3	0
+Fmt2=u8[10]	3	0
+Fmt3=u8[6]	3	0
+[watch_formats]
+Fmt0={W}2:u16NumBit	1	0
+Fmt1={W}2:u8hammer	4	0
+Fmt2={W}2:u8kingdom	4	0
+Fmt3={W}3:pu8Pointer	4	0
+Fmt4={W}3:u16Viewer	4	0
+Fmt5={W}3:u8BroadCounter	3	0
+Fmt6={W}3:u8CorrectNum	3	0
+Fmt7={W}3:u8KeyBroad0	3	0
+Fmt8={W}3:u8KeyBroad1	3	0
+Fmt9={W}3:u8KeyBroad2	3	0
+Fmt10={W}3:u8KeyBroad3	3	0
+Fmt11={W}3:u8TrueFalse	3	0
+Fmt12={W}3:u8TrueFalse1	3	0
+Fmt13={W}3:u8TrueFalse2	3	0
+Fmt14={W}3:u8Viewer	4	0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -42,9 +87,10 @@ Exclusions=
 [Disassemble mode]
 mode=0
 [Breakpoints2]
-Bp0=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\application\main.c}.92.5" 0 0 1 "" 0 "" 0
-Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\application\main.c}.93.5" 0 0 1 "" 0 "" 0
-Count=2
+Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\application\main.c}.26.1" 0 0 1 "" 0 "" 0
+Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\firmware_common\application\user_app1.c}.326.1" 0 0 1 "" 0 "" 0
+Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\firmware_common\application\user_app1.c}.326.1" 0 0 1 "" 0 "" 0
+Count=3
 [Aliases]
 Count=0
 SuppressDialog=0

@@ -77,7 +77,7 @@ void LedOff(LedNumberType eLED_);
 void LedToggle(LedNumberType eLED_);
 void LedPWM(LedNumberType eLED_, LedRateType ePwmRate_);
 void LedBlink(LedNumberType eLED_, LedRateType ePwmRate_);
-
+ 
 /* Protected Functions */
 void LedInitialize(void);
 

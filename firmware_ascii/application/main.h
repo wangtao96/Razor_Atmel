@@ -16,10 +16,24 @@ Header file for main.c.
 #define FIRMWARE_SUB_REV1               '0'
 #define FIRMWARE_SUB_REV2               '1'
 
+/*Beginning of the Bit definition*/
+#define _Bit6(u16) 0x0040;
+#define _Bit13 (0x01<<13);
+
+
 
 /***********************************************************************************************************************
 * Constant Definitions
 ***********************************************************************************************************************/
+
+/*Beginning of the enum def*/
+typedef enum{RED1,ORANGE1=10,YELLOW1=10,GREEN1=10,BULE1=15,PURPLE1}eColor;
+
+typedef enum{TEST_PASS,TEST_FAIL,TEST_EMPTY}TestType;
+
+typedef enum{VOTGA,WINE,BEER,XO,VISKI,LARM}DrinkType;
+
+
 /* G_u32ApplicationFlags definitions are in configuration.h */
 
 /* G_u32SystemFlags */
@@ -42,6 +56,8 @@ Header file for main.c.
 Function Declarations
 **********************************************************************************************************************/
 void Timer1CallBack(void);
+
+                              
 
 
 #endif /* __MAIN_H */

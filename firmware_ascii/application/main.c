@@ -14,7 +14,18 @@ All Global variable names shall start with "G_"
 /* New variables */
 volatile u32 G_u32SystemFlags = 0;                     /* Global system flags */
 volatile u32 G_u32ApplicationFlags = 0;                /* Global applications flags: set when application is successfully initialized */
-u8 u8kingdom;
+
+  s8 s8ComuNum=0;
+  u8 u8ComuNum=0;
+  u32 u32ComuNum;
+ bool bCN=FALSE;/*****BOOL has been defined already*****/
+ 
+ typedef struct
+ {
+   u8 u8ServerNumber;
+   DrinkType asServingTray[6];
+   void* psNextServer;
+ }ServerType;
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -43,10 +54,65 @@ the 1ms period.
 
 void main(void)
 {
+  
+   u16 u16Viewer;
+   u16Viewer=0x5A;
+   u16* pu16Pointer;
+   u8 u8Viewer;
+   u8Viewer =0xA5;
+   u8* pu8Pointer;
+   
+   pu16Pointer=&u16Viewer;
+   pu8Pointer=&u8Viewer;
+   
+   pu16Pointer++;
+   pu8Pointer--;
+   *pu16Pointer-=2;
+   *pu8Pointer+=3;
+   *pu16Pointer++;
+   *pu16Pointer--;
+   *pu16Pointer ++;
+  
+  
   G_u32SystemFlags |= _SYSTEM_INITIALIZING;
-  u8 u8hammer;
-  u8kingdom=0;
-  u8hammer=3;
+  eColor aeColorArrey1[]={RED1,ORANGE1,YELLOW1};
+  eColor aeColorArrey2[]={GREEN1,YELLOW,PURPLE};
+  u8  au8Whatever[10];
+   au8Whatever[3]=4;
+   au8Whatever[9]=500;
+  
+  /**************************************************/
+  /**************************************************/
+  /**************************************************/
+  /**************************************************/
+  /**************************************************/
+  
+  /*
+  u16 u16NumBit=0x1234;
+  u16NumBit|=~_Bit6(u16);
+  u16NumBit&=_Bit6(u16);
+  u16NumBit|=~_Bit13;
+  u16NumBit&=_Bit13;
+  
+  */
+  
+  u8 u8CurrentServer;
+  ServerType sServer1;
+  ServerType* psServerParser;
+
+  ServerType sServer2;
+  ServerType sSerber3;
+  ServerType sServer4;
+  
+  psServerParser=&sServer1;
+  sServer1.u8ServerNumber=6;
+  u8CurrentServer=psServerParser->u8ServerNumber;
+  
+
+
+  
+
+  
 
   /* Low level initialization */
   WatchDogSetup(); /* During development, does not reset processor if timeout */
@@ -89,8 +155,17 @@ void main(void)
   while(1)
   {
     WATCHDOG_BONE();
-    u8kingdom++;
-    u8hammer+=2;
+    
+    /*
+    u8 au8Arrey1[]={'H','E','L','L','O','u','f','o'};
+    u8 au8Arrey2[]="HELLO1h6";
+    u8 au8Arrey3[]={72,69,76,76,79,23,5,112};
+    u8 au8Arrey4[]={72,69,76,76,79,68,28,69};
+
+    s8 s8ch[8]={'a',' ','s','t','r','i','n','g'};
+    
+    */
+  
     
     /* Drivers */
     LedUpdate();
