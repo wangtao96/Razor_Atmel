@@ -102,6 +102,8 @@ void UserApp1Initialize(void)
   PWMAudioOff(BUZZER1);
   PWMAudioSetFrequency(BUZZER1, 800);
   
+
+  
   //static u16 u16LedRate=0;
 
   
@@ -156,8 +158,9 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
 {
-	static u8 u8RealPassword[]={1,2,3,1,2,3};
-	static u8 u8UserPassword[]={0,0,0,0,0,0};
+	//you have a correct password already
+	static u8 au8RealPassword[]={1,2,3,1,2,3};
+	static u8 au8UserPassword[]={0,0,0,0,0,0};
 	static u8 u8Index=0;
 	static u8 u8Confirm=0;
 	static u16 u16Counter1=0;
@@ -167,8 +170,52 @@ static void UserApp1SM_Idle(void)
 	static bool bPressed3=FALSE;
 	static bool bIsOk=TRUE;
 	u8 u8TempIndex;
-
 	
+	//you wanna to change your password
+	static u8 u8ChangeCounter=0;
+	static u8 u8i=0;
+	static u8 au8ChangePassword[]={0,0,0,0,0,0};
+	static u8 au8DebugNum[1];
+	
+	if(u8ChangeCounter==1);
+	{
+		DebugScanf(au8DebugNum);
+		
+		if(u8i<=6)
+		{
+			switch(au8DebugNum[0])
+			{
+				case 1:
+					{
+						au8ChangePassword[u8i]=au8DebugNum[0];
+						break;
+					}
+				
+				case 2:
+					{
+						au8ChangePassword[u8i]=au8DebugNum[0];
+						break;
+					}
+				case 3:
+					{
+						au8ChangePassword[u8i]=au8DebugNum[0];
+						break;
+					}
+				default:
+					{
+						break;
+					}	
+			}
+			u8i++;
+			
+			if(u8i==6)
+			{
+				u8i=0;
+			}
+		}
+	}
+
+	//button confirmed
 	if(WasButtonPressed(BUTTON3))
 	{
 		ButtonAcknowledge(BUTTON0);
@@ -192,7 +239,8 @@ static void UserApp1SM_Idle(void)
 			bPressed3=TRUE;
 		}
 	}
-
+	
+	//confirming
 	if(bPressed2)
 	{
 		u16Counter1++;
@@ -210,46 +258,66 @@ static void UserApp1SM_Idle(void)
 		if(u16Counter1==180)
 		{
 			PWMAudioOff(BUZZER1);
-			bPressed2=FALSE;
 			u16Counter1=0;
+			bPressed2=FALSE;
 		}
 	}
-		
+	
+	//entering
 	if(bPressed3)
-	{	
-		for(u8TempIndex=0;u8TempIndex<6;u8TempIndex++)
+	{
+		if(u8ChangeCounter==0)
 		{
-			if(u8RealPassword[u8TempIndex]!=
-			   u8UserPassword[u8TempIndex])
+			for(u8TempIndex=0;u8TempIndex<6;u8TempIndex++)
 			{
-				bIsOk=FALSE;
-				break;
+				if(au8RealPassword[u8TempIndex]!=
+				   au8UserPassword[u8TempIndex])
+				{
+					bIsOk=FALSE;
+					break;
+				}
 			}
+			
+			if(bIsOk)//password is correct
+			{
+				LedOn(WHITE);
+				LedOff(PURPLE);
+			}
+			else//password is incorrect
+			{
+				LedOff(WHITE);
+				LedOn(PURPLE);
+			}
+			
+			u8TempIndex=0;
+			
+			//reset the user password
+			for(u8TempIndex=0;u8TempIndex<6;u8TempIndex++)
+			{
+				au8UserPassword[u8TempIndex]=0;
+			}
+			
+			u8Confirm=0;
+			u8Index=0;
+			u8TempIndex=0;
+			bIsOk=TRUE;
+			bPressed3=FALSE;
 		}
 		
-		if(bIsOk)
+		if(WasButtonPressed(BUTTON0))
 		{
-			LedOn(WHITE);
-			LedOff(PURPLE);
+			ButtonAcknowledge(BUTTON0);
+			LedOn(YELLOW);
+			u8ChangeCounter=1;
 		}
-		else
+		
+		if(WasButtonPressed(BUTTON1))
 		{
-			LedOff(WHITE);
-			LedOn(PURPLE);
+			ButtonAcknowledge(BUTTON1);
+			LedOff(YELLOW);
+			u8ChangeCounter=0;
+			bPressed3=FALSE;
 		}
-		
-		u8TempIndex=0;
-		
-		for(u8TempIndex=0;u8TempIndex<6;u8TempIndex++)
-		{
-			u8UserPassword[u8TempIndex]=0;
-		}
-		
-		u8Confirm=0;
-		u8Index=0;
-		u8TempIndex=0;
-		bIsOk=TRUE;
-		bPressed3=FALSE;
 	}
 	
 	if(u8Confirm==1)
@@ -258,33 +326,33 @@ static void UserApp1SM_Idle(void)
 		{
 			if(u8Index<6)
 			{
-				if(WasButtonPressed(BUTTON0))
+				if(WasButtonPressed(BUTTON0))//press button0
 				{
 					ButtonAcknowledge(BUTTON0);
 					LedOn(RED);
 					PWMAudioOn(BUZZER1);
 					bPressed1=TRUE;
-					u8UserPassword[u8Index]=1;
+					au8UserPassword[u8Index]=1;
 					u8Index++;
 				}
 			
-				if(WasButtonPressed(BUTTON1))
+				if(WasButtonPressed(BUTTON1))//press button1
 				{
 					ButtonAcknowledge(BUTTON1);
 					LedOn(RED);
 					PWMAudioOn(BUZZER1);
 					bPressed1=TRUE;
-					u8UserPassword[u8Index]=2;
+					au8UserPassword[u8Index]=2;
 					u8Index++;
 				}
 			
-				if(WasButtonPressed(BUTTON2))
+				if(WasButtonPressed(BUTTON2))//press button2
 				{
 					ButtonAcknowledge(BUTTON2);
 					LedOn(RED);
 					PWMAudioOn(BUZZER1);
 					bPressed1=TRUE;
-					u8UserPassword[u8Index]=3;
+					au8UserPassword[u8Index]=3;
 					u8Index++;
 				}
 			}
@@ -303,10 +371,7 @@ static void UserApp1SM_Idle(void)
 			}			
 		}
 	}
-
-
-
-
+	
 }
  /* end UserApp1SM_Idle() */
     
