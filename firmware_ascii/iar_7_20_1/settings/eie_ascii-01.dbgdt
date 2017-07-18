@@ -190,7 +190,7 @@
       
       
       
-    <Wnd0>
+    <Wnd2>
         <Tabs>
           <Tab>
             <Identity>TabID-24281-12506</Identity>
@@ -202,21 +202,21 @@
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd0><Wnd1><Tabs><Tab><Identity>TabID-21393-24268</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs><SelectedTab>0</SelectedTab></Wnd1></Windows>
+      <SelectedTab>0</SelectedTab></Wnd2><Wnd3><Tabs><Tab><Identity>TabID-21393-24268</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs><SelectedTab>0</SelectedTab></Wnd3></Windows>
     <Editor>
       
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\firmware_common\application\user_app1.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>211</YPos2><SelStart2>7980</SelStart2><SelEnd2>7980</SelEnd2></Tab><ActiveTab>0</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\application\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>49</YPos2><SelStart2>2817</SelStart2><SelEnd2>2817</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\firmware_common\drivers\interrupts.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>132</YPos2><SelStart2>5133</SelStart2><SelEnd2>5133</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\firmware_common\application\user_app1.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>31</YPos2><SelStart2>3592</SelStart2><SelEnd2>3592</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\firmware_common\drivers\leds.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>500</SelStart2><SelEnd2>500</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\firmware_common\application\user_app1.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>234</YPos2><SelStart2>8476</SelStart2><SelEnd2>8476</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\application\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>49</YPos2><SelStart2>2817</SelStart2><SelEnd2>2817</SelEnd2></Tab><ActiveTab>1</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\firmware_common\drivers\interrupts.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>147</YPos2><SelStart2>5133</SelStart2><SelEnd2>5133</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\firmware_common\application\user_app1.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>35</YPos2><SelStart2>3644</SelStart2><SelEnd2>3644</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-01BDB280><key>iaridepm.enu1</key></Toolbar-01BDB280><Toolbar-2A528F10><key>debuggergui.enu1</key></Toolbar-2A528F10></Sizes></Row0><Row1><Sizes><Toolbar-2A528420><key>armjlink.enu1</key></Toolbar-2A528420></Sizes></Row1></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>554</Bottom><Right>246</Right><x>-2</x><y>-2</y><xscreen>160</xscreen><yscreen>163</yscreen><sizeHorzCX>104167</sizeHorzCX><sizeHorzCY>198538</sizeHorzCY><sizeVertCX>161458</sizeVertCX><sizeVertCY>677223</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>198</Bottom><Right>1538</Right><x>-2</x><y>-2</y><xscreen>1540</xscreen><yscreen>200</yscreen><sizeHorzCX>1002604</sizeHorzCX><sizeHorzCY>243605</sizeHorzCY><sizeVertCX>130208</sizeVertCX><sizeVertCY>243605</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-05787DF8><key>iaridepm.enu1</key></Toolbar-05787DF8><Toolbar-16FCBBA8><key>debuggergui.enu1</key></Toolbar-16FCBBA8></Sizes></Row0><Row1><Sizes><Toolbar-16FCBD38><key>armjlink.enu1</key></Toolbar-16FCBD38></Sizes></Row1></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>554</Bottom><Right>246</Right><x>-2</x><y>-2</y><xscreen>160</xscreen><yscreen>163</yscreen><sizeHorzCX>104167</sizeHorzCX><sizeHorzCY>198538</sizeHorzCY><sizeVertCX>161458</sizeVertCX><sizeVertCY>677223</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>198</Bottom><Right>1538</Right><x>-2</x><y>-2</y><xscreen>1540</xscreen><yscreen>200</yscreen><sizeHorzCX>1002604</sizeHorzCX><sizeHorzCY>243605</sizeHorzCY><sizeVertCX>130208</sizeVertCX><sizeVertCY>243605</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Project>
 

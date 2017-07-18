@@ -1,14 +1,14 @@
 /**********************************************************************************************************************
-File: user_app1.c                                                                
+File: user_app.c                                                                
 
 ----------------------------------------------------------------------------------------------------------------------
-To start a new task using this user_app1 as a template:
- 1. Copy both user_app1.c and user_app1.h to the Application directory
+To start a new task using this user_app as a template:
+ 1. Copy both user_app.c and user_app.h to the Application directory
  2. Rename the files yournewtaskname.c and yournewtaskname.h
  3. Add yournewtaskname.c and yournewtaskname.h to the Application Include and Source groups in the IAR project
- 4. Use ctrl-h (make sure "Match Case" is checked) to find and replace all instances of "user_app1" with "yournewtaskname"
- 5. Use ctrl-h to find and replace all instances of "UserApp1" with "YourNewTaskName"
- 6. Use ctrl-h to find and replace all instances of "USER_APP1" with "YOUR_NEW_TASK_NAME"
+ 4. Use ctrl-h (make sure "Match Case" is checked) to find and replace all instances of "user_app" with "yournewtaskname"
+ 5. Use ctrl-h to find and replace all instances of "UserApp" with "YourNewTaskName"
+ 6. Use ctrl-h to find and replace all instances of "USER_APP" with "YOUR_NEW_TASK_NAME"
  7. Add a call to YourNewTaskNameInitialize() in the init section of main
  8. Add a call to YourNewTaskNameRunActiveState() in the Super Loop section of main
  9. Update yournewtaskname.h per the instructions at the top of yournewtaskname.h
@@ -16,7 +16,7 @@ To start a new task using this user_app1 as a template:
 ----------------------------------------------------------------------------------------------------------------------
 
 Description:
-This is a user_app1.c file template 
+This is a user_app.c file template 
 
 ------------------------------------------------------------------------------------------------------------------------
 API:
@@ -25,10 +25,10 @@ Public functions:
 
 
 Protected System functions:
-void UserApp1Initialize(void)
+void UserAppInitialize(void)
 Runs required initialzation for the task.  Should only be called once in main init section.
 
-void UserApp1RunActiveState(void)
+void UserAppRunActiveState(void)
 Runs current task state.  Should only be called once in main loop.
 
 
@@ -38,10 +38,10 @@ Runs current task state.  Should only be called once in main loop.
 
 /***********************************************************************************************************************
 Global variable definitions with scope across entire project.
-All Global variable names shall start with "G_UserApp1"
+All Global variable names shall start with "G_"
 ***********************************************************************************************************************/
 /* New variables */
-volatile u32 G_u32UserApp1Flags;                       /* Global state flags */
+volatile u32 G_u32UserAppFlags;                       /* Global state flags */
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -55,10 +55,14 @@ extern volatile u32 G_u32SystemTime1s;                 /* From board-specific so
 
 /***********************************************************************************************************************
 Global variable definitions with scope limited to this local application.
-Variable names shall start with "UserApp1_" and be declared as static.
+Variable names shall start with "UserApp_" and be declared as static.
 ***********************************************************************************************************************/
+static u8 UserApp1_au8MyName[] = "LCD Example";     
+static u8 UserApp1_CursorPosition1;
+static u8 UserApp1_CursorPosition2;
+
 static fnCode_type UserApp1_StateMachine;            /* The state machine function pointer */
-//static u32 UserApp1_u32Timeout;                      /* Timeout counter used across states */
+static u32 UserApp1_u32Timeout;                      /* Timeout counter used across states */
 
 
 /**********************************************************************************************************************
@@ -69,12 +73,13 @@ Function Definitions
 /* Public functions                                                                                                   */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Protected functions                                                                                                */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------------------------------------------------------------------------
-Function: UserApp1Initialize
+Function: UserAppInitialize
 
 Description:
 Initializes the State Machine and its variables.
@@ -87,43 +92,44 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
-  
+	
+	/*u8 au8Message[] = "Hello world!";*/
 
-  LedOff(WHITE);
-  LedOff(PURPLE);
-  LedOff(BLUE);
-  LedOff(CYAN);
-  LedOff(GREEN);
-  LedOff(YELLOW);
-  LedOff(ORANGE);
-  LedOff(RED);
-  
-  
-  PWMAudioOff(BUZZER1);
-  PWMAudioSetFrequency(BUZZER1, 800);
-  
-  //static u16 u16LedRate=0;
+	/* Examples */
+	/*LCDMessage(LINE1_START_ADDR, au8Message);*/
+	LCDClearChars(LINE1_START_ADDR + 13, 3);
+	LCDCommand(LCD_CLEAR_CMD);
 
-  
+	/* Write name and button labels */
+	/*LCDMessage(LINE1_START_ADDR, UserApp_au8MyName);
+	LCDMessage(LINE2_START_ADDR, "0");
+	LCDMessage(LINE2_START_ADDR + 6, "1");
+	LCDMessage(LINE2_START_ADDR + 13, "2");
+	LCDMessage(LINE2_END_ADDR, "3");*/
+
+	/* Home the cursor */
+	/*LCDCommand(LCD_HOME_CMD); */ 
+
+	UserApp1_CursorPosition1 = LINE1_END_ADDR;
+
+	/* If good initialization, set state to Idle */
+	if( 1 )
+	{
+	UserApp1_StateMachine = UserApp1SM_Idle;
+	}
+	else
+	{
+	/* The task isn't properly initialized, so shut it down and don't run */
+	UserApp1_StateMachine=UserApp1SM_FailedInit;
+	}
+
+	PWMAudioSetFrequency(BUZZER1,700);
+
+	} /* end UserAppInitialize() */
 
 
- 
-  /* If good initialization, set state to Idle */
-  if( 1 )
-  {
-    UserApp1_StateMachine = UserApp1SM_Idle;
-  }
-  else
-  {
-    /* The task isn't properly initialized, so shut it down and don't run */
-    UserApp1_StateMachine = UserApp1SM_Error;
-  }
-
-} /* end UserApp1Initialize() */
-
-  
 /*----------------------------------------------------------------------------------------------------------------------
-Function UserApp1RunActiveState()
+Function UserAppRunActiveState()
 
 Description:
 Selects and runs one iteration of the current state in the state machine.
@@ -139,8 +145,10 @@ Promises:
 void UserApp1RunActiveState(void)
 {
   UserApp1_StateMachine();
+  
+  
 
-} /* end UserApp1RunActiveState */
+ } /* end UserAppRunActiveState */
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -153,173 +161,161 @@ State Machine Function Definitions
 **********************************************************************************************************************/
 
 /*-------------------------------------------------------------------------------------------------------------------*/
-/* Wait for ??? */
+/* Wait for a message to be queued */
 static void UserApp1SM_Idle(void)
 {
-	static u8 u8RealPassword[]={1,2,3,1,2,3};
-	static u8 u8UserPassword[]={0,0,0,0,0,0};
-	static u8 u8Index=0;
-	static u8 u8Confirm=0;
-	static u16 u16Counter1=0;
-	static u16 u16Counter2=0;
-	static bool bPressed1=FALSE;
-	static bool bPressed2=FALSE;
-	static bool bPressed3=FALSE;
-	static bool bIsOk=TRUE;
-	u8 u8TempIndex;
-
+	u8 au8MyName[20]="Wang_Tao           ";
+	u8* pu8MyName=&au8MyName[0];
+	static u16 u16Counter=0;
+	static u8 u8Counter1=0;
+	static u8 u8NameTemp=0;
+	static u8 u8Store=20;
+	static u16 u16Speed=200;
 	
-	if(WasButtonPressed(BUTTON3))
+	u16Counter++;
+	
+	if(u16Counter==100)
 	{
-		ButtonAcknowledge(BUTTON0);
-		ButtonAcknowledge(BUTTON1);
-		ButtonAcknowledge(BUTTON2);
-		ButtonAcknowledge(BUTTON3);		
-		u8Confirm++;
-		bPressed2=TRUE;
+		LedOff(RED);
+		PWMAudioOff(BUZZER1);
+	}
+	
+	if(u16Counter==u16Speed)
+	{
+		u16Counter=0;
+		LedOn(RED);
 		PWMAudioOn(BUZZER1);
 		
-		if(u8Confirm==1)
+		if(u8NameTemp<12)	
 		{
-			LedOn(BLUE);
-			LedOff(WHITE);
-			LedOff(PURPLE);
-		}
-		
-		if(u8Confirm==2)
-		{
-			LedOff(BLUE);
-			bPressed3=TRUE;
-		}
-	}
+			LCDMessage(LINE1_END_ADDR-u8Counter1,pu8MyName);
+			u8Counter1++;
+			
 
-	if(bPressed2)
-	{
-		u16Counter1++;
-		
-		if(u16Counter1==60)
-		{
-			PWMAudioOff(BUZZER1);
-		}
-		
-		if(u16Counter1==120)
-		{
-			PWMAudioOn(BUZZER1);
-		}
-		
-		if(u16Counter1==180)
-		{
-			PWMAudioOff(BUZZER1);
-			bPressed2=FALSE;
-			u16Counter1=0;
-		}
-	}
-		
-	if(bPressed3)
-	{	
-		for(u8TempIndex=0;u8TempIndex<6;u8TempIndex++)
-		{
-			if(u8RealPassword[u8TempIndex]!=
-			   u8UserPassword[u8TempIndex])
+			if(u8Counter1==u8Store)
 			{
-				bIsOk=FALSE;
-				break;
+				LCDClearChars(LINE1_END_ADDR-u8Counter1+1, 8);
+				u8Store=u8Counter1-1;
+				u8Counter1=0;
+				u8NameTemp++;
+				*pu8MyName++;
 			}
 		}
 		
-		if(bIsOk)
+		if(u8NameTemp==12)//when screen is full with numbers
 		{
-			LedOn(WHITE);
-			LedOff(PURPLE);
+			LCDClearChars(LINE1_START_ADDR,20);
+			*pu8MyName=au8MyName[0];
+			u8NameTemp=0;
+			u8Store=20;
 		}
-		else
-		{
-			LedOff(WHITE);
-			LedOn(PURPLE);
-		}
-		
-		u8TempIndex=0;
-		
-		for(u8TempIndex=0;u8TempIndex<6;u8TempIndex++)
-		{
-			u8UserPassword[u8TempIndex]=0;
-		}
-		
-		u8Confirm=0;
-		u8Index=0;
-		u8TempIndex=0;
-		bIsOk=TRUE;
-		bPressed3=FALSE;
 	}
 	
-	if(u8Confirm==1)
-	{	
-		if(u8Index<=6)
+	if(WasButtonPressed(BUTTON2))
+	{
+		ButtonAcknowledge(BUTTON2);
+		u16Counter=0;
+		
+		if(u16Speed>200)
 		{
-			if(u8Index<6)
-			{
-				if(WasButtonPressed(BUTTON0))
-				{
-					ButtonAcknowledge(BUTTON0);
-					LedOn(RED);
-					PWMAudioOn(BUZZER1);
-					bPressed1=TRUE;
-					u8UserPassword[u8Index]=1;
-					u8Index++;
-				}
-			
-				if(WasButtonPressed(BUTTON1))
-				{
-					ButtonAcknowledge(BUTTON1);
-					LedOn(RED);
-					PWMAudioOn(BUZZER1);
-					bPressed1=TRUE;
-					u8UserPassword[u8Index]=2;
-					u8Index++;
-				}
-			
-				if(WasButtonPressed(BUTTON2))
-				{
-					ButtonAcknowledge(BUTTON2);
-					LedOn(RED);
-					PWMAudioOn(BUZZER1);
-					bPressed1=TRUE;
-					u8UserPassword[u8Index]=3;
-					u8Index++;
-				}
-			}
-			
-			if(bPressed1==TRUE)
-			{
-				u16Counter1++;
-				
-				if(u16Counter1==100)
-				{
-					u16Counter1=0;
-					LedOff(RED);
-					PWMAudioOff(BUZZER1);
-					bPressed1=FALSE;
-				}
-			}			
+			u16Speed-=200;
 		}
 	}
-
-
-
-
-}
- /* end UserApp1SM_Idle() */
-    
+	
+	if(WasButtonPressed(BUTTON1))
+	{
+		ButtonAcknowledge(BUTTON1);
+		u16Counter=0;
+		
+		if(u16Speed<1200)
+		{
+			u16Speed+=200;
+		}
+	}
+	
+	switch(u16Speed)
+	{
+		case 1200:
+			LedOn(PURPLE);
+			LedOff(BLUE);
+			LedOff(CYAN);
+			LedOff(GREEN);
+			LedOff(YELLOW);
+			LedOff(ORANGE);
+			break;
+			
+		case 1000:
+			LedOff(PURPLE);
+			LedOn(BLUE);
+			LedOff(CYAN);
+			LedOff(GREEN);
+			LedOff(YELLOW);
+			LedOff(ORANGE);
+			break;
+			
+		case 800:
+			LedOff(PURPLE);
+			LedOff(BLUE);
+			LedOn(CYAN);
+			LedOff(GREEN);
+			LedOff(YELLOW);
+			LedOff(ORANGE);
+			break;
+			
+		case 600:
+			LedOff(PURPLE);
+			LedOff(BLUE);
+			LedOff(CYAN);
+			LedOn(GREEN);
+			LedOff(YELLOW);
+			LedOff(ORANGE);
+			break;
+			
+		case 400:
+			LedOff(PURPLE);
+			LedOff(BLUE);
+			LedOff(CYAN);
+			LedOff(GREEN);
+			LedOn(YELLOW);
+			LedOff(ORANGE);
+			break;
+			
+		case 200:
+			LedOff(PURPLE);
+			LedOff(BLUE);
+			LedOff(CYAN);
+			LedOff(GREEN);
+			LedOff(YELLOW);
+			LedOn(ORANGE);
+			break;
+			
+		default:
+			break;
+		
+	}
+	
+	
+	
+} /* end UserAppSM_Idle() */
+     
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 /* Handle an error */
 static void UserApp1SM_Error(void)          
 {
   
-} /* end UserApp1SM_Error() */
+} /* end UserAppSM_Error() */
 
+
+/*-------------------------------------------------------------------------------------------------------------------*/
+/* State to sit in if init failed */
+static void UserApp1SM_FailedInit(void)          
+{
+    
+} /* end UserAppSM_FailedInit() */
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* End of File                                                                                                        */
 /*--------------------------------------------------------------------------------------------------------------------*/
+
