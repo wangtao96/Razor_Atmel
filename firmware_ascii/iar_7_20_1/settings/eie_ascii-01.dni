@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=990675007
+Checksum=977669140
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -88,8 +88,8 @@ Exclusions=
 mode=0
 [Breakpoints2]
 Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\application\main.c}.26.1" 0 0 1 "" 0 "" 0
-Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\firmware_common\application\user_app1.c}.391.1" 0 0 1 "" 0 "" 0
-Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\firmware_common\application\user_app1.c}.391.1" 0 0 1 "" 0 "" 0
+Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\firmware_common\application\user_app1.c}.326.1" 0 0 1 "" 0 "" 0
+Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\firmware_common\application\user_app1.c}.326.1" 0 0 1 "" 0 "" 0
 Count=3
 [Aliases]
 Count=0
