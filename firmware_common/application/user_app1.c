@@ -57,7 +57,8 @@ extern volatile u32 G_u32SystemTime1s;                 /* From board-specific so
 Global variable definitions with scope limited to this local application.
 Variable names shall start with "UserApp_" and be declared as static.
 ***********************************************************************************************************************/
-static u8 UserApp1_au8MyName[] = "LCD Example";     
+
+//static u8 UserApp1_au8MyName[] = "LCD Example";     
 static u8 UserApp1_CursorPosition1;
 static u8 UserApp1_CursorPosition2;
 
@@ -92,40 +93,42 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
+	LedOff(WHITE);
+	LedOff(PURPLE);
+	LedOff(BLUE);
+	LedOff(CYAN);
+	LedOff(GREEN);
+	LedOff(YELLOW);
+	LedOff(ORANGE);
+	LedOff(RED);
 	
-	/*u8 au8Message[] = "Hello world!";*/
+	LCDCommand(LCD_CLEAR_CMD);	
+	
+	LCDMessage(LINE1_START_ADDR,"0");//WHITE
+	LCDMessage(LINE1_START_ADDR+2,"0");//PURPLE
+	LCDMessage(LINE1_START_ADDR+5,"0");//BLUE
+	LCDMessage(LINE1_START_ADDR+8,"0");//CYAN
+	LCDMessage(LINE1_START_ADDR+11,"0");//GREEN
+	LCDMessage(LINE1_START_ADDR+14,"0");//YELLOW
+	LCDMessage(LINE1_START_ADDR+17,"0");//ORANGE
+	LCDMessage(LINE1_START_ADDR+19,"0");//RED
+	
+	
+	LCDMessage(LINE2_START_ADDR,"TIME:");
+	
 
-	/* Examples */
-	/*LCDMessage(LINE1_START_ADDR, au8Message);*/
-	LCDClearChars(LINE1_START_ADDR + 13, 3);
-	LCDCommand(LCD_CLEAR_CMD);
-
-	/* Write name and button labels */
-	/*LCDMessage(LINE1_START_ADDR, UserApp_au8MyName);
-	LCDMessage(LINE2_START_ADDR, "0");
-	LCDMessage(LINE2_START_ADDR + 6, "1");
-	LCDMessage(LINE2_START_ADDR + 13, "2");
-	LCDMessage(LINE2_END_ADDR, "3");*/
-
-	/* Home the cursor */
-	/*LCDCommand(LCD_HOME_CMD); */ 
-
-	UserApp1_CursorPosition1 = LINE1_END_ADDR;
-
-	/* If good initialization, set state to Idle */
 	if( 1 )
 	{
-	UserApp1_StateMachine = UserApp1SM_Idle;
+		UserApp1_StateMachine = UserApp1SM_Idle;
 	}
 	else
 	{
 	/* The task isn't properly initialized, so shut it down and don't run */
-	UserApp1_StateMachine=UserApp1SM_FailedInit;
+		UserApp1_StateMachine = UserApp1SM_FailedInit;
 	}
-
-	PWMAudioSetFrequency(BUZZER1,700);
-
-	} /* end UserAppInitialize() */
+	
+	
+} /* end UserAppInitialize() */
 
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -147,6 +150,7 @@ void UserApp1RunActiveState(void)
   UserApp1_StateMachine();
   
   
+  
 
  } /* end UserAppRunActiveState */
 
@@ -164,134 +168,71 @@ State Machine Function Definitions
 /* Wait for a message to be queued */
 static void UserApp1SM_Idle(void)
 {
-	u8 au8MyName[20]="Wang_Tao           ";
-	u8* pu8MyName=&au8MyName[0];
-	static u16 u16Counter=0;
-	static u8 u8Counter1=0;
-	static u8 u8NameTemp=0;
-	static u8 u8Store=20;
-	static u16 u16Speed=200;
-	
-	u16Counter++;
-	
-	if(u16Counter==100)
+	static u16 u16TimeCounter=0;
+	static u16 u16TimeTemp=0;
+	static u8 au8ThousandTime[]="0000";
+	static u8 u8Limit=0;
+	static u8 u8Court=0;
+	//Set up your command
+	sLedLimit asLimitLevel[]=
 	{
-		LedOff(RED);
-		PWMAudioOff(BUZZER1);
-	}
+		{RED,1000,TRUE,LED_PWM_20,LINE1_START_ADDR+19},
+		{GREEN,3000,TRUE,LED_PWM_20,LINE1_START_ADDR+11},
+		{RED,6000,FALSE,LED_PWM_0,LINE1_START_ADDR+19},
+		{GREEN,9000,FALSE,LED_PWM_0,LINE1_START_ADDR+11}
+	};
 	
-	if(u16Counter==u16Speed)
-	{
-		u16Counter=0;
-		LedOn(RED);
-		PWMAudioOn(BUZZER1);
-		
-		if(u8NameTemp<12)	
-		{
-			LCDMessage(LINE1_END_ADDR-u8Counter1,pu8MyName);
-			u8Counter1++;
-			
 
-			if(u8Counter1==u8Store)
-			{
-				LCDClearChars(LINE1_END_ADDR-u8Counter1+1, 8);
-				u8Store=u8Counter1-1;
-				u8Counter1=0;
-				u8NameTemp++;
-				*pu8MyName++;
-			}
-		}
+	
+	
+	//Time counter ms
+	if(u16TimeTemp%1000==0)
+	{
+		//thousand's place
+		u8Court=u16TimeCounter/1000;
+		au8ThousandTime[0]=u8Court+'0';
 		
-		if(u8NameTemp==12)//when screen is full with numbers
-		{
-			LCDClearChars(LINE1_START_ADDR,20);
-			*pu8MyName=au8MyName[0];
-			u8NameTemp=0;
-			u8Store=20;
-		}
+		//hundred's place
+		u8Court=(u16TimeCounter%1000)/100;
+		au8ThousandTime[1]=u8Court+'0';
+		
+		//ten's place
+		u8Court=((u16TimeCounter%1000)%100)/10;
+		au8ThousandTime[2]=u8Court+'0';
+		
+		u8Court=((u16TimeCounter%1000)%100)%10;
+		au8ThousandTime[3]=u8Court+'0';
+		
+		//print time on LCD ms
+		LCDMessage(LINE2_START_ADDR+5,au8ThousandTime);
+		u16TimeTemp=0;
 	}
 	
-	if(WasButtonPressed(BUTTON2))
+	
+	u16TimeCounter++;
+	u16TimeTemp++;
+	
+	//LED status
+	if(u16TimeCounter==asLimitLevel[u8Limit].u16Counter)
 	{
-		ButtonAcknowledge(BUTTON2);
-		u16Counter=0;
+		LedPWM(asLimitLevel[u8Limit].eLED,asLimitLevel[u8Limit].eLightRate);
 		
-		if(u16Speed>200)
+		if(asLimitLevel[u8Limit].bOn)
 		{
-			u16Speed-=200;
+			LCDMessage(asLimitLevel[u8Limit].u8Addr,"1");
 		}
+		else
+		{
+			LCDMessage(asLimitLevel[u8Limit].u8Addr,"0");
+		}
+		u8Limit++;
 	}
 	
-	if(WasButtonPressed(BUTTON1))
+	//10s for a circulation
+	if(u16TimeCounter==10000)
 	{
-		ButtonAcknowledge(BUTTON1);
-		u16Counter=0;
-		
-		if(u16Speed<1200)
-		{
-			u16Speed+=200;
-		}
-	}
-	
-	switch(u16Speed)
-	{
-		case 1200:
-			LedOn(PURPLE);
-			LedOff(BLUE);
-			LedOff(CYAN);
-			LedOff(GREEN);
-			LedOff(YELLOW);
-			LedOff(ORANGE);
-			break;
-			
-		case 1000:
-			LedOff(PURPLE);
-			LedOn(BLUE);
-			LedOff(CYAN);
-			LedOff(GREEN);
-			LedOff(YELLOW);
-			LedOff(ORANGE);
-			break;
-			
-		case 800:
-			LedOff(PURPLE);
-			LedOff(BLUE);
-			LedOn(CYAN);
-			LedOff(GREEN);
-			LedOff(YELLOW);
-			LedOff(ORANGE);
-			break;
-			
-		case 600:
-			LedOff(PURPLE);
-			LedOff(BLUE);
-			LedOff(CYAN);
-			LedOn(GREEN);
-			LedOff(YELLOW);
-			LedOff(ORANGE);
-			break;
-			
-		case 400:
-			LedOff(PURPLE);
-			LedOff(BLUE);
-			LedOff(CYAN);
-			LedOff(GREEN);
-			LedOn(YELLOW);
-			LedOff(ORANGE);
-			break;
-			
-		case 200:
-			LedOff(PURPLE);
-			LedOff(BLUE);
-			LedOff(CYAN);
-			LedOff(GREEN);
-			LedOff(YELLOW);
-			LedOn(ORANGE);
-			break;
-			
-		default:
-			break;
-		
+		u16TimeCounter=0;
+		u8Limit=0;
 	}
 	
 	

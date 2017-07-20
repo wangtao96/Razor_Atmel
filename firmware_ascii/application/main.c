@@ -72,14 +72,12 @@ void main(void)
    *pu16Pointer++;
    *pu16Pointer--;
    *pu16Pointer ++;
+	
   
   
   G_u32SystemFlags |= _SYSTEM_INITIALIZING;
-  eColor aeColorArrey1[]={RED1,ORANGE1,YELLOW1};
-  eColor aeColorArrey2[]={GREEN1,YELLOW,PURPLE};
-  u8  au8Whatever[10];
-   au8Whatever[3]=4;
-   au8Whatever[9]=500;
+
+
   
   /**************************************************/
   /**************************************************/

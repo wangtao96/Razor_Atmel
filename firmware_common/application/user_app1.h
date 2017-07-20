@@ -24,6 +24,16 @@ Header file for user_app1.c
 Type Definitions
 **********************************************************************************************************************/
 
+typedef struct
+{
+	LedNumberType eLED;
+	u16 u16Counter;
+	bool bOn;
+	LedRateType eLightRate;
+	u8 u8Addr;
+
+} sLedLimit;
+
 
 /**********************************************************************************************************************
 Constants / Definitions
