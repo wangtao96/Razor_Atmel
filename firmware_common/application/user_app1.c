@@ -66,6 +66,7 @@ static fnCode_type UserApp1_StateMachine;            /* The state machine functi
 static u32 UserApp1_u32Timeout;                      /* Timeout counter used across states */
 
 
+
 /**********************************************************************************************************************
 Function Definitions
 **********************************************************************************************************************/
@@ -93,30 +94,8 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
-	LedOff(WHITE);
-	LedOff(PURPLE);
-	LedOff(BLUE);
-	LedOff(CYAN);
-	LedOff(GREEN);
-	LedOff(YELLOW);
-	LedOff(ORANGE);
-	LedOff(RED);
-	
-	LCDCommand(LCD_CLEAR_CMD);	
-	
-	LCDMessage(LINE1_START_ADDR,"0");//WHITE
-	LCDMessage(LINE1_START_ADDR+2,"0");//PURPLE
-	LCDMessage(LINE1_START_ADDR+5,"0");//BLUE
-	LCDMessage(LINE1_START_ADDR+8,"0");//CYAN
-	LCDMessage(LINE1_START_ADDR+11,"0");//GREEN
-	LCDMessage(LINE1_START_ADDR+14,"0");//YELLOW
-	LCDMessage(LINE1_START_ADDR+17,"0");//ORANGE
-	LCDMessage(LINE1_START_ADDR+19,"0");//RED
 	
 	
-	LCDMessage(LINE2_START_ADDR,"TIME:");
-	
-
 	if( 1 )
 	{
 		UserApp1_StateMachine = UserApp1SM_Idle;
@@ -168,72 +147,7 @@ State Machine Function Definitions
 /* Wait for a message to be queued */
 static void UserApp1SM_Idle(void)
 {
-	static u16 u16TimeCounter=0;
-	static u16 u16TimeTemp=0;
-	static u8 au8ThousandTime[]="0000";
-	static u8 u8Limit=0;
-	static u8 u8Court=0;
-	//Set up your command
-	sLedLimit asLimitLevel[]=
-	{
-		{RED,1000,TRUE,LED_PWM_20,LINE1_START_ADDR+19},
-		{GREEN,3000,TRUE,LED_PWM_20,LINE1_START_ADDR+11},
-		{RED,6000,FALSE,LED_PWM_0,LINE1_START_ADDR+19},
-		{GREEN,9000,FALSE,LED_PWM_0,LINE1_START_ADDR+11}
-	};
 	
-
-	
-	
-	//Time counter ms
-	if(u16TimeTemp%1000==0)
-	{
-		//thousand's place
-		u8Court=u16TimeCounter/1000;
-		au8ThousandTime[0]=u8Court+'0';
-		
-		//hundred's place
-		u8Court=(u16TimeCounter%1000)/100;
-		au8ThousandTime[1]=u8Court+'0';
-		
-		//ten's place
-		u8Court=((u16TimeCounter%1000)%100)/10;
-		au8ThousandTime[2]=u8Court+'0';
-		
-		u8Court=((u16TimeCounter%1000)%100)%10;
-		au8ThousandTime[3]=u8Court+'0';
-		
-		//print time on LCD ms
-		LCDMessage(LINE2_START_ADDR+5,au8ThousandTime);
-		u16TimeTemp=0;
-	}
-	
-	
-	u16TimeCounter++;
-	u16TimeTemp++;
-	
-	//LED status
-	if(u16TimeCounter==asLimitLevel[u8Limit].u16Counter)
-	{
-		LedPWM(asLimitLevel[u8Limit].eLED,asLimitLevel[u8Limit].eLightRate);
-		
-		if(asLimitLevel[u8Limit].bOn)
-		{
-			LCDMessage(asLimitLevel[u8Limit].u8Addr,"1");
-		}
-		else
-		{
-			LCDMessage(asLimitLevel[u8Limit].u8Addr,"0");
-		}
-		u8Limit++;
-	}
-	
-	//10s for a circulation
-	if(u16TimeCounter==10000)
-	{
-		u16TimeCounter=0;
-		u8Limit=0;
-	}
 	
 	
 	

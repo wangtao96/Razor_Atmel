@@ -13,6 +13,31 @@ Header file for user_app2.c
 Type Definitions
 **********************************************************************************************************************/
 
+typedef struct
+{
+	LedNumberType eLED;
+	u16 u16Counter;
+	bool bOn;
+	LedRateType eLightRate;
+	u8 u8Addr;
+} sLedLimit;
+
+typedef struct
+{
+	struct sLedLimit;
+	u8* pu8AddrCommand;
+} sEnterCommand;
+
+typedef struct
+{
+	LedNumberType eUserLED;
+	u16 u16UserCounter;
+	bool bUserOn;
+	LedRateType eLightRate;
+	u8 u8UserAddr;
+} sUserLedLimit;
+
+
 
 /**********************************************************************************************************************
 Constants / Definitions
