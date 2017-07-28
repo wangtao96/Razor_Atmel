@@ -87,6 +87,17 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
+	LedOn(WHITE);
+	LedOn(PURPLE);
+	LedOn(BLUE);
+	LedOn(CYAN);
+	LedOn(GREEN);
+	LedOn(YELLOW);
+	LedOn(ORANGE);
+	LedOn(RED);
+	
+	
+	
  
   /* If good initialization, set state to Idle */
   if( 1 )
@@ -136,6 +147,59 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
 {
+	static u16 u16Counter=0;//time counter
+	static u16 u16LedTemp=LED_PWM_0;
+	static LedRateType eLedDutyLevel=LED_PWM_0;
+	static bool bUpDown=TRUE;
+
+	u16Counter++;
+
+	if(u16Counter==40)//1s
+	{
+		LedPWM(WHITE,eLedDutyLevel);
+		LedPWM(PURPLE,eLedDutyLevel);
+		LedPWM(BLUE,eLedDutyLevel);
+		LedPWM(CYAN,eLedDutyLevel);
+		LedPWM(GREEN,eLedDutyLevel);
+		LedPWM(YELLOW,eLedDutyLevel);
+		LedPWM(ORANGE,eLedDutyLevel);
+		LedPWM(RED,eLedDutyLevel);
+		
+		if(u16LedTemp==16)
+		{
+			u16LedTemp=0;
+		}
+		
+		if(u16LedTemp==0)//up
+		{
+			bUpDown=TRUE;
+		}
+
+		if(u16LedTemp==8)//down
+		{
+			bUpDown=FALSE;
+		}
+		
+		if(bUpDown)
+		{
+			LedOn(WHITE);
+			eLedDutyLevel++;
+		}
+		
+		if(!bUpDown)
+		{
+			LedOff(WHITE);
+			eLedDutyLevel--;
+		}
+		
+		u16LedTemp++;
+		u16Counter=0;
+	}
+	
+	
+	
+	
+	
 
 } /* end UserApp1SM_Idle() */
     
