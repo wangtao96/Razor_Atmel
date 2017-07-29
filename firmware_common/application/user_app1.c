@@ -165,7 +165,7 @@ static void UserApp1SM_Idle(void)
 		LedPWM(ORANGE,eLedDutyLevel);
 		LedPWM(RED,eLedDutyLevel);
 		
-		if(u16LedTemp==16)
+		if(u16LedTemp==16)//when it comes to be PWM_0,we will make it rise again
 		{
 			u16LedTemp=0;
 		}
@@ -180,13 +180,13 @@ static void UserApp1SM_Idle(void)
 			bUpDown=FALSE;
 		}
 		
-		if(bUpDown)
+		if(bUpDown)//up
 		{
 			LedOn(WHITE);
 			eLedDutyLevel++;
 		}
 		
-		if(!bUpDown)
+		if(!bUpDown)//down
 		{
 			LedOff(WHITE);
 			eLedDutyLevel--;
