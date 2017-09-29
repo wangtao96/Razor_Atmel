@@ -359,7 +359,18 @@ Promises:
 */
 void UserApp2Initialize(void)
 {
-  u8 au8UserApp1Start2[] = "LED display task started\n\r";
+  u8 au8UserApp1Start2[] = "LED display task started\n\r"; 
+  
+	DebugPrintf("**********************************************************");
+	DebugLineFeed();
+	DebugPrintf("LED Programing Interface");
+	DebugLineFeed();
+	DebugPrintf("Press 1 to program LED command sequence");
+	DebugLineFeed();
+	DebugPrintf("Press 2 to show current USER program");
+	DebugLineFeed();
+	DebugPrintf("**********************************************************");
+	DebugLineFeed();
   
   /* Initialize the list variables */
   UserApp2_sDemoLedCommandList.psFirstCommand = NULL;
@@ -653,7 +664,7 @@ void ResetListFades(LedDisplayListNodeType* psTargetList_)
       Because of the way the steps are added, the integer division should always work. */
       u32Adjustment = ( (u32)(psListParser->eCommand.eCurrentRate) / LED_FADE_STEP) * LED_FADE_TIME;
       psListParser->eCommand.u32Time -= u32Adjustment;
-      psListParser->eCommand.eCurrentRate = LED_PWM_0;
+      psListParser->eCommand.eCurrentRate  = LED_PWM_0;
     }
            
     /* Fade off commands should start at LED_PWM_100 */
@@ -685,6 +696,20 @@ BUTTON1 starts the USER code.
 */
 static void UserApp2SM_Idle(void)
 {
+	static u8 u8Number=0;
+	static u8 au8Buffer[]="0";
+	static bool bCorrect=FALSE;
+	
+	if(G_au8DebugScanfBuffer[0]=="1")
+	{
+		
+	}
+	
+	if(G_au8DebugScanfBuffer[0]=="2")
+	{
+		
+	}
+	
   /* BUTTON0 selects the Demo List which is always available */
   if(WasButtonPressed(BUTTON0))
   {
