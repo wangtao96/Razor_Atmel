@@ -176,6 +176,9 @@ void BoardTestSM_Idle(void)
   static u8 u8Button3Test = 0;
   static u8 au8TestMessage[] = {0, 0, 0, 0, 0, 0, 0, 0};
   static u8 au8DataMessage[] = "ANT data: ";
+  static u8 u8Checksum=0;
+  static u8 u8Count=0;
+  static bool bSamesum=FALSE;
   u8 au8DataContent[26];
   AntChannelStatusType eAntCurrentState;
 
@@ -418,6 +421,23 @@ void BoardTestSM_Idle(void)
 
     u8ResetIndex--;
 
+  }
+  
+  for(u8Count==0;u8Count<4;u8Count++)
+  {
+	  u8Checksum=(u8Checksum^au8TestMessage[u8Count]);
+  }
+  
+  u8Count=0;
+  
+  if(u8Checksum==au8TestMessage[5])
+  {
+	  bSamesum=TRUE;
+  }
+  
+  if(bSamesum==FALSE)
+  {
+	  DebugPrintf("Checksum incorrect");
   }
   
 } /* end BoardTestSM_Idle() */
